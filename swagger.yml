@@ -12,6 +12,7 @@ tags:
   - name: App
   - name: Auth
   - name: Profile
+  - name: Users
 
 paths:
   /:
@@ -123,6 +124,24 @@ paths:
         '409':
           description: Username already in use
 
+  /users:
+    get:
+      tags: [Users]
+      summary: List users for room invitations
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Users list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserPublic'
+        '401':
+          description: Unauthorized
+
 components:
   securitySchemes:
     bearerAuth:
@@ -218,3 +237,20 @@ components:
         displayColor:
           type: string
           example: '#2563eb'
+
+    UserPublic:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: alice
+        email:
+          type: string
+          format: email
+          example: alice@example.com
+        displayColor:
+          type: string
+          example: '#ef4444'

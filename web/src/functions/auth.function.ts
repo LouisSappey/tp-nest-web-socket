@@ -1,3 +1,5 @@
+import type { UserOption } from '../types/chat.types'
+
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
 
 export async function authRequest(params: {
@@ -56,4 +58,26 @@ export async function updateProfileRequest(params: {
   }
 
   return response.json()
+}
+
+export async function fetchUsersRequest(token: string): Promise<UserOption[]> {
+  const response = await fetch(`${API_URL}/users`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}))
+    throw new Error(data?.message ?? 'Failed to load users')
+  }
+
+  const users = await response.json()
+  return users.map((user: { id: number; username: string; email: string; displayColor: string }) => ({
+    userId: user.id,
+    username: user.username,
+    email: user.email,
+    displayColor: user.displayColor,
+  }))
 }

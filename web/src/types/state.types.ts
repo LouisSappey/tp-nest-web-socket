@@ -1,4 +1,5 @@
 import type { Message, Room, User } from './chat.types'
+import type { UserOption } from './chat.types'
 
 export interface AuthFormState {
   mode: 'login' | 'register'
@@ -28,6 +29,7 @@ export interface ChatViewState {
   error: string
   currentUserId: number | null
   onlineUsers: User[]
+  allUsers: UserOption[]
   rooms: Room[]
   activeRoomId: string
   messagesByRoom: Record<string, Message[]>

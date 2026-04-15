@@ -36,6 +36,22 @@ export class UsersService {
     return this.userRepository.find({ where: { id: In(ids) } });
   }
 
+  async listUsersForInvite(): Promise<
+    { id: number; username: string; email: string; displayColor: string }[]
+  > {
+    const users = await this.userRepository.find({
+      order: { username: 'ASC' },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        displayColor: true,
+      },
+    });
+
+    return users;
+  }
+
   async updateProfile(
     id: number,
     data: { username?: string; displayColor?: string },

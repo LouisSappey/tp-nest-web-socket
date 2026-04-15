@@ -1,5 +1,4 @@
-import type { Message, Reaction, Room } from '../types/chat.types'
-import type { User } from '../types/chat.types'
+import type { Message, Reaction, Room, UserOption } from '../types/chat.types'
 
 export const EMOJIS = ['🔥', '❤️', '😂', '👍', '🎉']
 
@@ -48,11 +47,11 @@ export function getRoomById(rooms: Room[], roomId: string): Room | undefined {
 
 export function getInviteCandidates(params: {
   room?: Room
-  onlineUsers: User[]
+  allUsers: UserOption[]
   currentUserId: number | null
-}): User[] {
+}): UserOption[] {
   const memberIds = new Set(params.room?.memberIds ?? [])
-  return params.onlineUsers.filter((user) => {
+  return params.allUsers.filter((user) => {
     if (params.currentUserId && user.userId === params.currentUserId) {
       return false
     }

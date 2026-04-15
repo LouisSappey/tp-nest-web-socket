@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: help first_launch install install-back install-front env env-back env-front db-up db-down db-logs back front dev build test
+.PHONY: help first_launch install install-back install-front env env-back env-front db-up db-down db-logs back front dev build test fixtures
 
 help:
 	@echo "Available commands:"
@@ -15,6 +15,7 @@ help:
 	@echo "  make dev          Run backend and frontend together"
 	@echo "  make build        Build backend and frontend"
 	@echo "  make test         Run backend tests"
+	@echo "  make fixtures     Seed quick users fixtures"
 
 install: install-back install-front
 
@@ -33,19 +34,22 @@ env-front:
 	@if [ ! -f "web/.env" ]; then cp web/.env.example web/.env; echo "Created web/.env from web/.env.example"; else echo "web/.env already exists"; fi
 
 first_launch:
-	@echo "Step 1/5 - Installing dependencies"
+	@echo "Step 1/6 - Installing dependencies"
 	@$(MAKE) install
 	@echo ""
-	@echo "Step 2/5 - Creating env files"
+	@echo "Step 2/6 - Creating env files"
 	@$(MAKE) env
 	@echo ""
-	@echo "Step 3/5 - Starting database"
+	@echo "Step 3/6 - Starting database"
 	@$(MAKE) db-up
 	@echo ""
-	@echo "Step 4/5 - Building backend and frontend"
+	@echo "Step 4/6 - Seeding fixtures"
+	@$(MAKE) fixtures
+	@echo ""
+	@echo "Step 5/6 - Building backend and frontend"
 	@$(MAKE) build
 	@echo ""
-	@echo "Step 5/5 - Launching project (backend + frontend)"
+	@echo "Step 6/6 - Launching project (backend + frontend)"
 	@$(MAKE) dev
 
 db-up:
@@ -72,3 +76,6 @@ build:
 
 test:
 	npm test
+
+fixtures:
+	npm run fixtures:seed

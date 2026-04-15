@@ -11,6 +11,14 @@ make first_launch
 API HTTP: `http://localhost:3000`  
 Socket.IO: `ws://localhost:3000`
 
+## Comptes de test
+
+Tu peux te connecter directement avec:
+
+- `alice@example.com` / `password123`
+- `bob@example.com` / `password123`
+- `charlie@example.com` / `password123`
+
 ## Lancement manuel (sans Makefile)
 
 ```bash
@@ -43,7 +51,7 @@ make help
 
 Commandes principales:
 
-- `make first_launch` prepare tout pour un premier lancement (install, env, db, build)
+- `make first_launch` prepare tout pour un premier lancement (install, env, db, fixtures, build)
 - `make install` installe toutes les dependances (backend + frontend)
 - `make env` cree `.env` et `web/.env` s'ils n'existent pas
 - `make db-up` demarre PostgreSQL
@@ -51,6 +59,7 @@ Commandes principales:
 - `make front` lance le frontend React
 - `make dev` lance backend + frontend ensemble
 - `make build` build backend + frontend
+- `make fixtures` ajoute des utilisateurs de test
 
 ## Documentation API
 
@@ -96,3 +105,19 @@ const socket = io('http://localhost:3000', {
 - `chat:get_messages`
 
 Les payloads exacts sont documentes dans `asyncapi.yml`.
+
+## Fixtures rapides
+
+Pour injecter des utilisateurs de test:
+
+```bash
+make fixtures
+```
+
+ou
+
+```bash
+npm run fixtures:seed
+```
+
+Utilisateurs crees si absents: voir la section `Comptes de test`.

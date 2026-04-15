@@ -56,3 +56,10 @@ export interface ChatAckMessages {
   ok: boolean
   messages: Message[]
 }
+
+export interface UserOption {
+  userId: number
+  username: string
+  email: string
+  displayColor: string
+}

@@ -46,7 +46,7 @@ export function ChatPage({
   const activeRoom = getRoomById(state.rooms, state.activeRoomId)
   const inviteCandidates = getInviteCandidates({
     room: activeRoom,
-    onlineUsers: state.onlineUsers,
+    allUsers: state.allUsers,
     currentUserId: state.currentUserId,
   })
 

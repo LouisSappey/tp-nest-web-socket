@@ -2,7 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import type { Socket } from 'socket.io-client'
 import './App.css'
-import { authRequest, logoutRequest, updateProfileRequest } from './functions/auth.function'
+import {
+  authRequest,
+  fetchUsersRequest,
+  logoutRequest,
+  updateProfileRequest,
+} from './functions/auth.function'
 import {
   ensureRoom,
   parseMemberIds,
@@ -56,6 +61,7 @@ function App() {
     error: '',
     currentUserId: null,
     onlineUsers: [],
+    allUsers: [],
     rooms: [],
     activeRoomId: 'general',
     messagesByRoom: {},
@@ -147,6 +153,14 @@ function App() {
   useEffect(() => {
     if (!token) return
     connectSocket(token)
+    fetchUsersRequest(token)
+      .then((users) => {
+        setChatState((prev) => ({
+          ...prev,
+          allUsers: users,
+        }))
+      })
+      .catch(() => null)
     return () => {
       socketRef.current?.disconnect()
       socketRef.current = null
@@ -201,6 +215,7 @@ function App() {
       status: 'Disconnected',
       currentUserId: null,
       onlineUsers: [],
+      allUsers: [],
       rooms: [],
       messagesByRoom: {},
       typingUsers: [],
