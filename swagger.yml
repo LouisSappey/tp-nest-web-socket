@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: TP Nest Web Socket API
   version: 1.0.0
-  description: Simple Swagger spec for currently implemented routes.
+  description: HTTP routes only. WebSocket events are documented in asyncapi.yml.
 
 servers:
   - url: http://localhost:3000
@@ -98,6 +98,30 @@ paths:
                 $ref: '#/components/schemas/ProfileResponse'
         '401':
           description: Unauthorized
+    patch:
+      tags: [Profile]
+      summary: Update username and display color
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileRequest'
+      responses:
+        '200':
+          description: Profile updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileResponse'
+        '400':
+          description: Invalid payload
+        '401':
+          description: Unauthorized
+        '409':
+          description: Username already in use
 
 components:
   securitySchemes:
@@ -164,6 +188,19 @@ components:
         password:
           type: string
           example: $2b$10$...
+        displayColor:
+          type: string
+          example: '#2563eb'
+
+    UpdateProfileRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: louis_new
+        displayColor:
+          type: string
+          example: '#22c55e'
 
     ProfileResponse:
       type: object
@@ -171,7 +208,13 @@ components:
         userId:
           type: integer
           example: 1
+        username:
+          type: string
+          example: louis
         email:
           type: string
           format: email
           example: louis@example.com
+        displayColor:
+          type: string
+          example: '#2563eb'

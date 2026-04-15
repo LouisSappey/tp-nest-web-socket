@@ -1,0 +1,391 @@
+asyncapi: 3.0.0
+info:
+  title: TP Nest Chat WebSocket API
+  version: 1.0.0
+  description: AsyncAPI documentation for Socket.IO events.
+
+servers:
+  local:
+    host: localhost:3000
+    protocol: socket.io
+    description: Local development server
+
+channels:
+  chat.connected:
+    address: chat:connected
+    messages:
+      chatConnected:
+        $ref: '#/components/messages/ChatConnected'
+  chat.onlineUsers:
+    address: chat:online_users
+    messages:
+      chatOnlineUsers:
+        $ref: '#/components/messages/ChatOnlineUsers'
+  chat.newMessage:
+    address: chat:new_message
+    messages:
+      chatNewMessage:
+        $ref: '#/components/messages/ChatNewMessage'
+  chat.typingUsers:
+    address: chat:typing_users
+    messages:
+      chatTypingUsers:
+        $ref: '#/components/messages/ChatTypingUsers'
+  chat.messageReactionsUpdated:
+    address: chat:message_reactions_updated
+    messages:
+      chatMessageReactionsUpdated:
+        $ref: '#/components/messages/ChatMessageReactionsUpdated'
+  chat.roomCreated:
+    address: chat:room_created
+    messages:
+      chatRoomCreated:
+        $ref: '#/components/messages/ChatRoomCreated'
+  chat.roomInvited:
+    address: chat:room_invited
+    messages:
+      chatRoomInvited:
+        $ref: '#/components/messages/ChatRoomInvited'
+  chat.getOnlineUsers:
+    address: chat:get_online_users
+    messages:
+      chatGetOnlineUsers:
+        $ref: '#/components/messages/ChatGetOnlineUsers'
+  chat.getRooms:
+    address: chat:get_rooms
+    messages:
+      chatGetRooms:
+        $ref: '#/components/messages/ChatGetRooms'
+  chat.createRoom:
+    address: chat:create_room
+    messages:
+      chatCreateRoom:
+        $ref: '#/components/messages/ChatCreateRoom'
+  chat.getMessages:
+    address: chat:get_messages
+    messages:
+      chatGetMessages:
+        $ref: '#/components/messages/ChatGetMessages'
+  chat.sendMessage:
+    address: chat:send_message
+    messages:
+      chatSendMessage:
+        $ref: '#/components/messages/ChatSendMessage'
+  chat.typingStart:
+    address: chat:typing_start
+    messages:
+      chatTypingStart:
+        $ref: '#/components/messages/ChatTypingStart'
+  chat.typingStop:
+    address: chat:typing_stop
+    messages:
+      chatTypingStop:
+        $ref: '#/components/messages/ChatTypingStop'
+  chat.toggleReaction:
+    address: chat:toggle_reaction
+    messages:
+      chatToggleReaction:
+        $ref: '#/components/messages/ChatToggleReaction'
+
+operations:
+  receiveChatConnected:
+    action: receive
+    channel:
+      $ref: '#/channels/chat.connected'
+    messages:
+      - $ref: '#/channels/chat.connected/messages/chatConnected'
+  receiveOnlineUsers:
+    action: receive
+    channel:
+      $ref: '#/channels/chat.onlineUsers'
+    messages:
+      - $ref: '#/channels/chat.onlineUsers/messages/chatOnlineUsers'
+  receiveNewMessage:
+    action: receive
+    channel:
+      $ref: '#/channels/chat.newMessage'
+    messages:
+      - $ref: '#/channels/chat.newMessage/messages/chatNewMessage'
+  receiveTypingUsers:
+    action: receive
+    channel:
+      $ref: '#/channels/chat.typingUsers'
+    messages:
+      - $ref: '#/channels/chat.typingUsers/messages/chatTypingUsers'
+  receiveMessageReactionsUpdated:
+    action: receive
+    channel:
+      $ref: '#/channels/chat.messageReactionsUpdated'
+    messages:
+      - $ref: '#/channels/chat.messageReactionsUpdated/messages/chatMessageReactionsUpdated'
+  receiveRoomCreated:
+    action: receive
+    channel:
+      $ref: '#/channels/chat.roomCreated'
+    messages:
+      - $ref: '#/channels/chat.roomCreated/messages/chatRoomCreated'
+  receiveRoomInvited:
+    action: receive
+    channel:
+      $ref: '#/channels/chat.roomInvited'
+    messages:
+      - $ref: '#/channels/chat.roomInvited/messages/chatRoomInvited'
+  sendGetOnlineUsers:
+    action: send
+    channel:
+      $ref: '#/channels/chat.getOnlineUsers'
+    messages:
+      - $ref: '#/channels/chat.getOnlineUsers/messages/chatGetOnlineUsers'
+  sendGetRooms:
+    action: send
+    channel:
+      $ref: '#/channels/chat.getRooms'
+    messages:
+      - $ref: '#/channels/chat.getRooms/messages/chatGetRooms'
+  sendCreateRoom:
+    action: send
+    channel:
+      $ref: '#/channels/chat.createRoom'
+    messages:
+      - $ref: '#/channels/chat.createRoom/messages/chatCreateRoom'
+  sendGetMessages:
+    action: send
+    channel:
+      $ref: '#/channels/chat.getMessages'
+    messages:
+      - $ref: '#/channels/chat.getMessages/messages/chatGetMessages'
+  sendMessage:
+    action: send
+    channel:
+      $ref: '#/channels/chat.sendMessage'
+    messages:
+      - $ref: '#/channels/chat.sendMessage/messages/chatSendMessage'
+  sendTypingStart:
+    action: send
+    channel:
+      $ref: '#/channels/chat.typingStart'
+    messages:
+      - $ref: '#/channels/chat.typingStart/messages/chatTypingStart'
+  sendTypingStop:
+    action: send
+    channel:
+      $ref: '#/channels/chat.typingStop'
+    messages:
+      - $ref: '#/channels/chat.typingStop/messages/chatTypingStop'
+  sendToggleReaction:
+    action: send
+    channel:
+      $ref: '#/channels/chat.toggleReaction'
+    messages:
+      - $ref: '#/channels/chat.toggleReaction/messages/chatToggleReaction'
+
+components:
+  messages:
+    ChatConnected:
+      payload:
+        type: object
+        properties:
+          room:
+            type: string
+            example: general
+          currentUser:
+            $ref: '#/components/schemas/ConnectedUser'
+          onlineUsers:
+            type: array
+            items:
+              $ref: '#/components/schemas/ConnectedUser'
+          messages:
+            type: array
+            items:
+              $ref: '#/components/schemas/ChatMessage'
+          rooms:
+            type: array
+            items:
+              $ref: '#/components/schemas/ChatRoom'
+    ChatOnlineUsers:
+      payload:
+        type: array
+        items:
+          $ref: '#/components/schemas/ConnectedUser'
+    ChatNewMessage:
+      payload:
+        type: object
+        properties:
+          roomId:
+            type: string
+          message:
+            $ref: '#/components/schemas/ChatMessage'
+    ChatTypingUsers:
+      payload:
+        type: object
+        properties:
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/ConnectedUser'
+          usernames:
+            type: array
+            items:
+              type: string
+          isAnyoneTyping:
+            type: boolean
+    ChatMessageReactionsUpdated:
+      payload:
+        type: object
+        properties:
+          roomId:
+            type: string
+          messageId:
+            type: string
+          reactions:
+            type: array
+            items:
+              $ref: '#/components/schemas/MessageReaction'
+    ChatRoomCreated:
+      payload:
+        type: object
+        properties:
+          room:
+            $ref: '#/components/schemas/ChatRoom'
+    ChatRoomInvited:
+      payload:
+        type: object
+        properties:
+          room:
+            $ref: '#/components/schemas/ChatRoom'
+          messages:
+            type: array
+            items:
+              $ref: '#/components/schemas/ChatMessage'
+    ChatGetOnlineUsers:
+      payload:
+        type: object
+        additionalProperties: false
+    ChatGetRooms:
+      payload:
+        type: object
+        additionalProperties: false
+    ChatCreateRoom:
+      payload:
+        type: object
+        required: [name, memberIds, invitedCanReadHistory]
+        properties:
+          name:
+            type: string
+            example: Projet ESGI
+          memberIds:
+            type: array
+            items:
+              type: integer
+            example: [2, 3]
+          invitedCanReadHistory:
+            type: boolean
+            example: false
+    ChatGetMessages:
+      payload:
+        type: object
+        properties:
+          roomId:
+            type: string
+            example: general
+    ChatSendMessage:
+      payload:
+        type: object
+        required: [content]
+        properties:
+          roomId:
+            type: string
+            example: general
+          content:
+            type: string
+            example: Salut tout le monde
+    ChatTypingStart:
+      payload:
+        type: object
+        additionalProperties: false
+    ChatTypingStop:
+      payload:
+        type: object
+        additionalProperties: false
+    ChatToggleReaction:
+      payload:
+        type: object
+        required: [messageId, emoji]
+        properties:
+          roomId:
+            type: string
+            example: general
+          messageId:
+            type: string
+            example: 1710000000000-xyz789
+          emoji:
+            type: string
+            example: "🔥"
+
+  schemas:
+    ConnectedUser:
+      type: object
+      properties:
+        userId:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        displayColor:
+          type: string
+          example: '#2563eb'
+    ReactionUser:
+      type: object
+      properties:
+        userId:
+          type: integer
+        username:
+          type: string
+        displayColor:
+          type: string
+          example: '#2563eb'
+    MessageReaction:
+      type: object
+      properties:
+        emoji:
+          type: string
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReactionUser'
+    ChatMessage:
+      type: object
+      properties:
+        id:
+          type: string
+        content:
+          type: string
+        sentAt:
+          type: string
+          format: date-time
+        author:
+          $ref: '#/components/schemas/ConnectedUser'
+        reactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageReaction'
+    ChatRoom:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        createdBy:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        canReadHistory:
+          type: boolean
+        memberIds:
+          type: array
+          items:
+            type: integer

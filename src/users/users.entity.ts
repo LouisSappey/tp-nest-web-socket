@@ -13,4 +13,7 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column({ default: '#2563eb' })
+  displayColor: string;
 }
