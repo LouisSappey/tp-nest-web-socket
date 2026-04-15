@@ -2,17 +2,55 @@
 
 Backend NestJS pour un chat temps reel avec authentification JWT, chat general, salons prives, reactions emojis et indicateur de saisie.
 
-## Lancement rapide
+## Premier lancement (recommande)
 
 ```bash
-npm install
-cp .env.example .env
-docker compose up -d
-npm run start:dev
+make first_launch
 ```
 
 API HTTP: `http://localhost:3000`  
 Socket.IO: `ws://localhost:3000`
+
+## Lancement manuel (sans Makefile)
+
+```bash
+npm install
+npm --prefix web install
+cp .env.example .env
+cp web/.env.example web/.env
+docker compose up -d
+```
+
+Lancer le backend:
+
+```bash
+npm run start:dev
+```
+
+Lancer le frontend (dans un 2eme terminal):
+
+```bash
+npm --prefix web run dev
+```
+
+## Makefile
+
+Le projet inclut un `Makefile` pour lancer rapidement backend + frontend.
+
+```bash
+make help
+```
+
+Commandes principales:
+
+- `make first_launch` prepare tout pour un premier lancement (install, env, db, build)
+- `make install` installe toutes les dependances (backend + frontend)
+- `make env` cree `.env` et `web/.env` s'ils n'existent pas
+- `make db-up` demarre PostgreSQL
+- `make back` lance le backend NestJS
+- `make front` lance le frontend React
+- `make dev` lance backend + frontend ensemble
+- `make build` build backend + frontend
 
 ## Documentation API
 
