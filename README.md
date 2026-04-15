@@ -8,8 +8,9 @@ Backend NestJS pour un chat temps reel avec authentification JWT, chat general, 
 make first_launch
 ```
 
-API HTTP: `http://localhost:3000`  
-Socket.IO: `ws://localhost:3000`
+Frontend (React): `http://localhost:5173`  
+Backend API HTTP: `http://localhost:3000`  
+Backend Socket.IO: `ws://localhost:3000`
 
 ## Comptes de test
 
